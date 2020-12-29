@@ -6,7 +6,7 @@
 /*   By: fnaciri- <fnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/25 10:06:06 by fnaciri-          #+#    #+#             */
-/*   Updated: 2020/12/29 10:51:34 by fnaciri-         ###   ########.fr       */
+/*   Updated: 2020/12/29 12:25:58 by fnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,20 +107,20 @@ int fill_rec(FILE *file, t_paint_area *p_area)
         printf("rec: %c x: %f y:%f w: %f h: %f\n", rec.type, rec.x, rec.y, rec.w, rec.h);
         if (rec.h <= 0 || rec.w <= 0 || (rec.type != 'r' && rec.type != 'R'))
             return 1;
-        j = 0;
-        while (j < p_area->h)
+        i = 0;
+        while (i < p_area->h)
         {
-            i = 0;
-            while (i < p_area->w)
+            j = 0;
+            while (j < p_area->w)
             {
-                r = in_rec(i, j, rec);
+                r = in_rec(j, i, rec);
                 if (rec.type == 'R' && r == 1)
                     p_area->area[i * p_area->w + j] = rec.c;
                 else if (rec.type == 'r' && r == 2)
                     p_area->area[i * p_area->w + j] = rec.c;
-                i++;
+                j++;
             }
-            j++;    
+            i++;    
         }  
     } 
     return 0;  
