@@ -6,7 +6,7 @@
 /*   By: fnaciri- <fnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/25 10:06:06 by fnaciri-          #+#    #+#             */
-/*   Updated: 2020/12/29 12:25:58 by fnaciri-         ###   ########.fr       */
+/*   Updated: 2020/12/29 12:51:03 by fnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,9 @@ int     in_rec(float x, float y, t_rec rec)
 {
     if (((x < rec.x || (rec.x + rec.w < x)) || (y < rec.y)) || (rec.y + rec.h < y))
         return (0);
-    if (((x - rec.x < 1.00000000) || ((rec.x+ rec.w) - x < 1.00000000)) ||
+    if (((x - rec.x < 1.00000000) || ((rec.x+ rec.w) - x < 1.00000000)) || // x = rec.x || x = rec,w - 1 || y == rec.y || y == rec.h - 1
         ((y - rec.y < 1.00000000 || ((rec.y + rec.h) - y < 1.00000000))))
+    // if ((x == rec.x) || (x == rec.w - 1) || (y = rec.y) || (y = rec.h - 1))
         return (2);
     return 1;
 }
@@ -114,10 +115,9 @@ int fill_rec(FILE *file, t_paint_area *p_area)
             while (j < p_area->w)
             {
                 r = in_rec(j, i, rec);
-                if (rec.type == 'R' && r == 1)
+                if ((rec.type == 'r' && r == 2)|| (rec.type == 'R' && r))
                     p_area->area[i * p_area->w + j] = rec.c;
-                else if (rec.type == 'r' && r == 2)
-                    p_area->area[i * p_area->w + j] = rec.c;
+
                 j++;
             }
             i++;    
