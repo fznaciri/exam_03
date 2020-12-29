@@ -6,7 +6,7 @@
 /*   By: fnaciri- <fnaciri-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/25 10:06:06 by fnaciri-          #+#    #+#             */
-/*   Updated: 2020/12/26 12:49:54 by fnaciri-         ###   ########.fr       */
+/*   Updated: 2020/12/29 10:51:34 by fnaciri-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int     in_rec(float x, float y, t_rec rec)
 {
     if (((x < rec.x || (rec.x + rec.w < x)) || (y < rec.y)) || (rec.y + rec.h < y))
         return (0);
-    if (((x - rec.x< 1.00000000) || ((rec.x+ rec.w) - x < 1.00000000)) ||
+    if (((x - rec.x < 1.00000000) || ((rec.x+ rec.w) - x < 1.00000000)) ||
         ((y - rec.y < 1.00000000 || ((rec.y + rec.h) - y < 1.00000000))))
         return (2);
     return 1;
@@ -104,22 +104,23 @@ int fill_rec(FILE *file, t_paint_area *p_area)
     
     while ((n = fscanf(file, "%c %f %f %f %f %c\n", &(rec.type), &(rec.x), &(rec.y), &(rec.w), &(rec.h), &(rec.c))) == 6)
     {
+        printf("rec: %c x: %f y:%f w: %f h: %f\n", rec.type, rec.x, rec.y, rec.w, rec.h);
         if (rec.h <= 0 || rec.w <= 0 || (rec.type != 'r' && rec.type != 'R'))
             return 1;
-        i = 0;
-        while (i < p_area->h)
+        j = 0;
+        while (j < p_area->h)
         {
-            j = 0;
-            while (j < p_area->w)
+            i = 0;
+            while (i < p_area->w)
             {
                 r = in_rec(i, j, rec);
                 if (rec.type == 'R' && r == 1)
                     p_area->area[i * p_area->w + j] = rec.c;
                 else if (rec.type == 'r' && r == 2)
                     p_area->area[i * p_area->w + j] = rec.c;
-                j++;
+                i++;
             }
-            i++;    
+            j++;    
         }  
     } 
     return 0;  
@@ -131,10 +132,10 @@ void    draw(t_paint_area *p_area)
     int j;
 
     i = 0;
-    while (i < p_area->w)
+    while (i < p_area->h)
     {
         j = 0;
-        while (j < p_area->h)
+        while (j < p_area->w)
         {
             write(1, p_area->area + (i * p_area->w + j), 1);
             j++;
